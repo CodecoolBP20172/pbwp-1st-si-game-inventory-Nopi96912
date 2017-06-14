@@ -1,4 +1,7 @@
+import sys
 import operator
+import os
+import csv
 # This is the file where you must work. Write code in the functions, create new functions,
 # so they work according to the specification
 inv = {'rope': 1, 'torch': 6, 'gold coin': 42, 'dagger': 1, 'arrow': 12}
@@ -11,7 +14,7 @@ def display_inventory(inventory):
         item_number += v
     print("Total number of items: " + str(item_number))
 
-#display_inventory(inv)
+# display_inventory(inv)
 
 # Adds to the inventory dictionary a list of items from added_items.
 def add_to_inventory(inventory, added_items):
@@ -22,7 +25,7 @@ def add_to_inventory(inventory, added_items):
 
 dragon_loot = ['gold coin', 'dagger', 'gold coin', 'gold coin', 'ruby']
 inv = add_to_inventory(inv, dragon_loot)
-#display_inventory(inv)
+# display_inventory(inv)
 
 # Takes your inventory and displays it in a well-organized table with 
 # each column right-justified. The input argument is an order parameter (string)
@@ -49,19 +52,25 @@ def print_table(inventory, order=None):
         for k, v in inventory.items():
             print(str(v).rjust(coloum_size) + k.rjust(coloum_size *2))
         print('Total number of items:', sum(inventory.values()))
-print_table(inv)
+# print_table(inv)
 
 # Imports new inventory items from a file
 # The filename comes as an argument, but by default it's 
 # "import_inventory.csv". The import automatically merges items by name.
 # The file format is plain text with comma separated values (CSV).
 def import_inventory(inventory, filename="import_inventory.csv"):
-    pass
+    with open (sys.argv[1], 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        imported_inventory = list(reader)
+        add_to_inventory(inventory, imported_inventory[0])
+        # print(imported_inventory)
 
+import_inventory(inv, sys.argv[1])
+print_table(inv, 'count,desc')
 
 # Exports the inventory into a .csv file.
 # if the filename argument is None it creates and overwrites a file
 # called "export_inventory.csv". The file format is the same plain text 
 # with comma separated values (CSV).
 def export_inventory(inventory, filename="export_inventory.csv"):
-    pass
+    
