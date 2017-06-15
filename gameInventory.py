@@ -73,4 +73,10 @@ print_table(inv, 'count,desc')
 # called "export_inventory.csv". The file format is the same plain text 
 # with comma separated values (CSV).
 def export_inventory(inventory, filename="export_inventory.csv"):
-    
+        bag = []
+        writer = csv.writer(open(filename, 'w'), quoting=csv.QUOTE_NONE, escapechar="|")
+        for key, value in inventory.items():
+            for i in range(value):  # we put the key (item) to the list [value] times
+                bag.append(key)
+        writer.writerow(bag)  # and finally we write it to the file
+export_inventory(inv)
